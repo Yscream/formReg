@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS users_data;
+DROP TABLE IF EXISTS credentials;
+DROP TABLE IF EXISTS tokens;
+
+CREATE TABLE IF NOT EXISTS users_data (
+	id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	fname VARCHAR ( 255 ) NOT NULL,
+	lname VARCHAR ( 255 ) NOT NULL,
+	email VARCHAR ( 255 ) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS credentials(
+	users_id INT UNIQUE REFERENCES users_data (id),
+	salt VARCHAR,
+	hash VARCHAR
+);
+
+CREATE TABLE IF NOT EXISTS tokens(
+	users_id INT UNIQUE REFERENCES users_data (id),
+	token VARCHAR
+);
+

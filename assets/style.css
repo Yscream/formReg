@@ -1,0 +1,145 @@
+body{
+    display: flex;
+    height: auto;
+    background-color: #9600F2;
+}
+
+main {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-form{
+    width: 500px;
+    height: 400px;
+    background: whitesmoke;
+    box-shadow: 0px 4px 4px rgba(46, 39, 85, 0.25);
+    border-radius: 8px;
+    padding-left: 30px;
+    max-width: 500px;
+}
+
+.reg-form{
+    width: 500px;
+    height: 700px;
+    background: whitesmoke;
+    box-shadow: 0px 4px 4px rgba(46, 39, 85, 0.25);
+    border-radius: 8px;
+    padding-left: 30px;
+    max-width: 500px;
+}
+
+.style-comps{
+    background:whitesmoke;
+}
+
+.start-title{
+    font-family: TharLon;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 51px;
+}
+
+.login{
+    padding-top: 10px;
+    text-align: center;
+    font-family: TharLon;
+    font-size: 20px;
+}
+
+.title{
+    font-family: TharLon;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 51px;
+}
+
+.style-title{
+    background: whitesmoke;
+}
+
+
+input{
+    padding-left: 10px;
+    border-radius: 8px;
+    font-size: larger;
+    margin-top: 10px;
+    width: 442px;
+    height: 60px;
+    background: rgb(240, 238, 238);
+    border: 2px solid whitesmoke;
+}
+
+.error{
+    background: whitesmoke;
+    font-size: 15px;
+    font-family: Gill Sans, sans-serif;
+    padding-left: 3px;
+    color: red;
+}
+
+.login-buttton{
+    text-align: center;
+    background: whitesmoke;
+    margin-top: 40px;
+    padding-top: 10px;
+}
+
+.form-buttton{
+    text-align: center;
+    background: whitesmoke;
+    padding-top: 10px;
+}
+
+.login-button{
+    margin-top: 5px;
+    height: 40px;
+    width: 400px;
+    border-radius: 8px;
+    border: 2px;
+    box-shadow: 0px 0px 5px 1px #3300FF;
+    color: white;
+    font-size: medium;
+    font-family: TharLon;;
+    font-style: normal;
+    font-weight: normal;
+    background:#3300FF;
+}
+
+.button{
+    margin-top: 60px;
+    height: 40px;
+    width: 400px;
+    border-radius: 8px;
+    border: 2px;
+    box-shadow: 0px 0px 5px 1px #3300FF;
+    color: white;
+    font-size: medium;
+    font-family: TharLon;;
+    font-style: normal;
+    font-weight: normal;
+    background:#3300FF;
+}
+
+.link-form{
+    display: flex;
+    width: 500px;
+    height: 200px;
+    background: whitesmoke;
+    box-shadow: 0px 4px 4px rgba(46, 39, 85, 0.25);
+    border-radius: 8px;
+    max-width: 500px;
+    align-items: center;
+    justify-content: center
+}
+
+.message{
+    background:whitesmoke;
+    font-family: TharLon;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 21px;
+}

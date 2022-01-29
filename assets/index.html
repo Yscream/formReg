@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Registartion</title>
+</head>
+<body>
+    <main>
+        <div class="reg-form">
+            <div class="title">
+                <h1 class="style-title">Регистрация</h1>
+            </div>
+            <form>
+                <div class="components">
+                    <div class="style-comps">
+                        <input class = 'name' name ="name" type="text" placeholder="Имя" >
+                        <div id = 'error1' class="error"></div>
+                    </div>
+                    <div class="style-comps">
+                        <input class = 'lastName' name = "lastName" type="text" placeholder="Фамилия">
+                        <div id = 'error2' class="error"></div>
+                    </div>
+                    <div class="style-comps">
+                        <input class = 'email' name = "email" type="email" placeholder="Почта">
+                        <div id = 'error3' class="error"></div>
+                    </div>
+                    <div class="style-comps">
+                        <input class = 'password' name="password" type="password" placeholder="Пароль">
+                        <div id = 'error4' class="error"></div>
+                    </div>
+                </div>
+                <div class="form-buttton">
+                    <button class="button" type ="button" id="sign">Зарегистрироваться</button>
+                </div>
+                <div class="login">
+                    <p>или</p>
+                </div>
+                <div class="form-buttton">
+                    <button class="login-button" type ="button" id="login" onclick=" window.location.href = 'log.html'">Войти в аккаунт</button>
+                </div>
+            </form>
+        </div> 
+    </main> 
+<script type="module" src="index.js"></script>
+</body>
+</html>

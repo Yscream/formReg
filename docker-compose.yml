@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  postgresql:
+    image: "postgres:14.1"
+    ports:
+    - "6080:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2201  
+      POSTGRES_DB: users
+      ENCODING: UTF-8
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d

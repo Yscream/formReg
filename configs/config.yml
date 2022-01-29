@@ -1,0 +1,6 @@
+username: "postgres"
+password: "2201"
+host: "127.0.0.1"
+port: 6080
+dbname: "users"
+sslmode: "disable"
