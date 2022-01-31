@@ -28,6 +28,7 @@ function logIn(){
     .then((data) => { 
         console.log(typeof(data) === 'string')
         if(typeof(data) === 'string'){
+            localStorage.setItem('token', data)
             window.location.href = 'after_log.html';
         }
         if(data.length > 0){
