@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS credentials(
 );
 
 CREATE TABLE IF NOT EXISTS tokens(
-	users_id INT UNIQUE REFERENCES users_data (id),
+	users_id INT REFERENCES users_data (id),
 	token VARCHAR
 );
 

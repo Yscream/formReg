@@ -41,7 +41,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(marshalBytes)
 		return
 	}
-
-	w.Write([]byte("[]"))
 	store.SaveToken(&login)
+	token, err := json.Marshal(store.SendToken(&login))
+	if err != nil {
+		return
+	}
+	fmt.Println(token)
+	w.Write(token)
 }

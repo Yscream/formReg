@@ -13,6 +13,25 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+func GetId(email string) int {
+	conn := GetConfig()
+	db, err := sql.Open("postgres", conn)
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	var id int
+	err = db.QueryRow("SELECT id FROM users_data WHERE email=$1", email).Scan(&id)
+	if err != nil {
+		fmt.Println("id doesn't exist")
+	}
+	fmt.Println(id)
+
+	return id
+}
+
 func GetConfig() string {
 
 	yfile, err := ioutil.ReadFile("./configs/config.yml")
@@ -34,59 +53,6 @@ func GetConfig() string {
 	result := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s", c.Username, c.Password, c.Host, c.Port, c.Dbname, c.Sslmode)
 	return result
 }
-
-func SaveToken(user *models.LoginUser) {
-	conn := GetConfig()
-	db, err := sql.Open("postgres", conn)
-	if err != nil {
-		panic(err)
-	}
-
-	defer db.Close()
-
-	var id int
-	err = db.QueryRow("SELECT id FROM users_data WHERE email=$1", user.Email).Scan(&id)
-	if err != nil {
-		fmt.Println("id doesn't exist")
-	}
-	fmt.Println(id)
-
-	combination := user.Email + user.Password
-
-	token := encryption.GenerateRandomString([]byte(combination))
-
-	tokens, err := db.Query("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, base64.StdEncoding.EncodeToString(token))
-	if err != nil {
-		panic(err)
-	}
-
-	defer tokens.Close()
-
-}
-
-// func SendToken() string {
-// 	user := models.LoginUser{}
-// 	conn := GetConfig()
-// 	db, err := sql.Open("postgres", conn)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	defer db.Close()
-
-// 	var id int
-// 	err = db.QueryRow("SELECT id FROM users_data WHERE email=$1", user.Email).Scan(&id)
-// 	if err != nil {
-// 		fmt.Println("id doesn't exist")
-// 	}
-
-// 	var token string
-// 	err = db.QueryRow("SELECT token FROM tokens WHERE email=$1", user.Email).Scan(&token)
-// 	if err != nil {
-// 		fmt.Println("token doesn't exist")
-// 	}
-// 	return token
-// }
 
 func SaveData(user *models.User) {
 	userdata := models.User{
@@ -110,13 +76,6 @@ func SaveData(user *models.User) {
 
 	defer insert.Close()
 
-	var id int
-	err = db.QueryRow("SELECT id FROM users_data WHERE email=$1", &userdata.Email).Scan(&id)
-	if err != nil {
-		fmt.Println("id doesn't exist")
-	}
-	fmt.Println(id)
-
 	salt := encryption.GenerateRandomString([]byte(userdata.Password))
 	saltToString := base64.StdEncoding.EncodeToString(salt)
 	combination := saltToString + userdata.Password
@@ -127,7 +86,7 @@ func SaveData(user *models.User) {
 	hash, _ := encryption.HashPassword(combination)
 	fmt.Println(hash)
 
-	credentials, err := db.Query("INSERT INTO credentials (users_id, salt, hash)  VALUES($1, $2, $3)", id, saltToString, hash)
+	credentials, err := db.Query("INSERT INTO credentials (users_id, salt, hash)  VALUES($1, $2, $3)", GetId(userdata.Email), saltToString, hash)
 	if err != nil {
 		panic(err)
 	}

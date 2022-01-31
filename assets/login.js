@@ -10,7 +10,7 @@ function logIn(){
         Password: loginPassword.value,
     }
 
-    const response = fetch(url, {
+    fetch(url, {
         method: 'POST', 
         mode: 'no-cors', 
         cache: 'no-cache',
@@ -24,10 +24,10 @@ function logIn(){
     })
     .then((response) => {
         console.log(response)
-        return response.json();
-    })
+        return response.json();})
     .then((data) => { 
-        if(data.length === 0){
+        console.log(typeof(data) === 'string')
+        if(typeof(data) === 'string'){
             window.location.href = 'after_log.html';
         }
         if(data.length > 0){
