@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/Yscream/formReg/pkg/models"
-	"github.com/Yscream/formReg/pkg/service"
-	"github.com/Yscream/formReg/pkg/store"
+	"github.com/Yscream/go-form-reg/pkg/models"
+	"github.com/Yscream/go-form-reg/pkg/service"
+	"github.com/Yscream/go-form-reg/pkg/store"
 )
 
 func SignupHandler(w http.ResponseWriter, r *http.Request) {

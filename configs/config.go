@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/Yscream/formReg/pkg/models"
+	"github.com/Yscream/go-form-reg/pkg/models"
 	"gopkg.in/yaml.v2"
 )
 
