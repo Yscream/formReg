@@ -1,12 +1,12 @@
-package validator
+package validators
 
 import (
 	"database/sql"
 	"fmt"
 	"regexp"
 
-	"github.com/Yscream/formReg/pkg/encryption"
-	"github.com/Yscream/formReg/pkg/store"
+	"github.com/Yscream/go-form-reg/configs"
+	"github.com/Yscream/go-form-reg/pkg/encryption"
 	_ "github.com/lib/pq"
 )
 
@@ -26,7 +26,7 @@ func Email(email string) bool {
 }
 
 func CheckEmail(email string) bool {
-	conn := store.GetConfig()
+	conn := configs.GetConfig()
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
 		panic(err)
@@ -48,7 +48,7 @@ func CheckEmail(email string) bool {
 }
 
 func CheckPass(email, password string) error {
-	conn := store.GetConfig()
+	conn := configs.GetConfig()
 	db, err := sql.Open("postgres", conn)
 	if err != nil {
 		panic(err)

@@ -1,34 +1,34 @@
 package service
 
 import (
-	"github.com/Yscream/formReg/pkg/models"
-	"github.com/Yscream/formReg/pkg/validator"
+	"github.com/Yscream/go-form-reg/pkg/models"
+	"github.com/Yscream/go-form-reg/pkg/validators"
 )
 
 func Signup(user *models.User) []models.TypeOfErrors {
 	errors := make([]models.TypeOfErrors, 0)
-	validName := validator.FieldLen(2, 255, user.Name)
+	validName := validators.FieldLen(2, 255, user.Name)
 	if !validName {
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "Name",
 			MessageErr: "First name must contains at least 2 and no more than 255 symbols",
 		})
 	}
-	validLastName := validator.FieldLen(2, 255, user.LastName)
+	validLastName := validators.FieldLen(2, 255, user.LastName)
 	if !validLastName {
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "LastName",
 			MessageErr: "Last name must contains at least 2 and no more than 255 symbols",
 		})
 	}
-	validEmail := validator.Email(user.Email)
+	validEmail := validators.Email(user.Email)
 	if !validEmail {
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "Email",
 			MessageErr: "Incorrect email address",
 		})
 	}
-	CheckEmail := validator.CheckEmail(user.Email)
+	CheckEmail := validators.CheckEmail(user.Email)
 
 	if CheckEmail {
 		errors = append(errors, models.TypeOfErrors{
@@ -37,7 +37,7 @@ func Signup(user *models.User) []models.TypeOfErrors {
 		})
 	}
 
-	validPassword := validator.FieldLen(8, 64, user.Password)
+	validPassword := validators.FieldLen(8, 64, user.Password)
 	if !validPassword {
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "Password",

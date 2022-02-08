@@ -10,7 +10,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//geenerate salt
 const saltSize = 16
 
 func GenerateRandomString(secret []byte) []byte {

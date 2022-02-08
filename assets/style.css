@@ -144,3 +144,26 @@ input{
     font-size: 21px;
     padding-bottom: 40%;
 }
+
+.profile{
+    height: 500px;
+    width: 500px;
+    border-radius: 8px;
+    background:rgb(240, 238, 238);
+}
+
+.logout-button{
+    margin-left: 400px;
+    /* margin-bottom: 600px; */
+    height: 40px;
+    max-width: 100px;
+    border-radius: 8px;
+    border: 2px;
+    box-shadow: 0px 0px 5px 1px #3300FF;
+    color: white;
+    font-size: medium;
+    font-family: TharLon;;
+    font-style: normal;
+    font-weight: normal;
+    background:#3300FF;
+}
