@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/Yscream/go-form-reg/pkg/DB"
 	"github.com/Yscream/go-form-reg/pkg/models"
 	"github.com/Yscream/go-form-reg/pkg/service"
-	"github.com/Yscream/go-form-reg/pkg/store"
 )
 
 func SignupHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,6 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(marshalBytes)
 		return
 	}
-	me := &user
+	DB.SaveData(&user)
 	w.Write([]byte("[]"))
-	store.SaveData(me)
 }

@@ -6,10 +6,12 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/Yscream/go-form-reg/pkg/JWT"
 	"github.com/Yscream/go-form-reg/pkg/models"
 	"github.com/Yscream/go-form-reg/pkg/service"
-	"github.com/Yscream/go-form-reg/pkg/store"
 )
+
+var Email string
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	login := models.LoginUser{}
@@ -27,8 +29,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf("Form :%+v;\n", login)
+	Email = login.Email
 
+	fmt.Println(Email)
 	errors := service.Login(&login)
 
 	if len(errors) > 0 {
@@ -41,11 +44,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(marshalBytes)
 		return
 	}
-	store.SaveToken(&login)
-	token, err := json.Marshal(store.SendToken(&login))
+	JWT.SaveToken(&login)
+	token, err := json.Marshal(JWT.SendToken(&login))
 	if err != nil {
 		return
 	}
-	fmt.Println(token)
 	w.Write(token)
 }

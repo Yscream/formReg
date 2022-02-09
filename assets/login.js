@@ -23,10 +23,8 @@ function logIn(){
         body: JSON.stringify(logForm) 
     })
     .then((response) => {
-        console.log(response)
         return response.json();})
     .then((data) => { 
-        console.log(typeof(data) === 'string')
         if(typeof(data) === 'string'){
             localStorage.setItem('token', data)
             window.location.href = 'after_log.html';

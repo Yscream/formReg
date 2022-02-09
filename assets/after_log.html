@@ -4,18 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="after_log.css">
     <title>Registartion</title>
 </head>
 <body>
     <main>
         <div class="profile">
-            <div class="form-buttton">
-                <button class="logout-button">Выйти</button>
-            </div>   
-                <button class="check-button">Проверить токен</button>
+            
+            <div class="title">
+                <h1 class="style-title">Профиль</h1>
+                <div class="form-buttton">
+                    <button class="logout-button">Выйти</button>
+                </div> 
+            </div>  
+                <div class="persons-info">
+                    <div class="person-fname">Имя:</div>
+                    <div class="person-lname">Фамилия:</div>
+                    <div class="person-email">Почта:</div>
+                    <div id = 'error' class="error"></div>
+                    <button class="check-button">Проверить токен</button>
 
-        </div>
+                </div>
+             
     </main>
     
 <script src="log_out.js"></script>

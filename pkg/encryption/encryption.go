@@ -10,9 +10,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-const saltSize = 16
-
 func GenerateRandomString(secret []byte) []byte {
+	const saltSize = 16
 	buf := make([]byte, saltSize, saltSize+sha1.Size)
 	_, err := io.ReadFull(rand.Reader, buf)
 

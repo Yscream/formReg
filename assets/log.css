@@ -10,10 +10,9 @@ main {
     margin-right: auto;
 }
 
-
-.reg-form{
+.login-form{
     width: 500px;
-    height: 700px;
+    height: 400px;
     background: whitesmoke;
     box-shadow: 0px 4px 4px rgba(46, 39, 85, 0.25);
     border-radius: 8px;
@@ -21,37 +20,12 @@ main {
     max-width: 500px;
 }
 
-.style-comps{
-    background:whitesmoke;
-}
-
-.start-title{
-    font-family: TharLon;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 51px;
-}
-
-.or{
+.login{
     padding-top: 10px;
     text-align: center;
     font-family: TharLon;
     font-size: 20px;
 }
-
-.title{
-    font-family: TharLon;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 51px;
-}
-
-.style-title{
-    background: whitesmoke;
-}
-
 
 input{
     padding-left: 10px;
@@ -72,16 +46,17 @@ input{
     color: red;
 }
 
+.form-buttton{
+    text-align: center;
+    background: whitesmoke;
+    padding-top: 10px;
+}
+
+
 .login-buttton{
     text-align: center;
     background: whitesmoke;
     margin-top: 40px;
-    padding-top: 10px;
-}
-
-.form-buttton{
-    text-align: center;
-    background: whitesmoke;
     padding-top: 10px;
 }
 
@@ -99,19 +74,3 @@ input{
     font-weight: normal;
     background:#3300FF;
 }
-
-.button{
-    margin-top: 60px;
-    height: 40px;
-    width: 400px;
-    border-radius: 8px;
-    border: 2px;
-    box-shadow: 0px 0px 5px 1px #3300FF;
-    color: white;
-    font-size: medium;
-    font-family: TharLon;;
-    font-style: normal;
-    font-weight: normal;
-    background:#3300FF;
-}
-

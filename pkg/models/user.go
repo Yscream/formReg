@@ -17,11 +17,9 @@ type TypeOfErrors struct {
 	MessageErr string
 }
 
-type Config struct {
-	Username string
-	Password string
-	Host     string
-	Port     int
-	Dbname   string
-	Sslmode  string
+type Person struct {
+	Tokenerr string
+	Name     string
+	Lname    string
+	Email    string
 }

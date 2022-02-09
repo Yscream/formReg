@@ -5,9 +5,17 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/Yscream/go-form-reg/pkg/models"
 	"gopkg.in/yaml.v2"
 )
+
+type Config struct {
+	Username string
+	Password string
+	Host     string
+	Port     int
+	Dbname   string
+	Sslmode  string
+}
 
 func GetConfig() string {
 
@@ -17,7 +25,7 @@ func GetConfig() string {
 		log.Fatal(err)
 	}
 
-	c := models.Config{}
+	c := Config{}
 
 	err = yaml.Unmarshal(yfile, &c)
 
