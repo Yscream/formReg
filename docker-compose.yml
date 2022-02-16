@@ -11,3 +11,8 @@ services:
       ENCODING: UTF-8
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
+  registration:
+    ports:
+      - "8033:8033"
+    build:
+      context: .

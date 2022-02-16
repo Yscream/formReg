@@ -15,7 +15,7 @@ type Claims struct {
 }
 
 var (
-	token_exp        = time.Now().Add(time.Minute * 15).Unix()
+	token_exp        = time.Now().Add(time.Minute * 1).Unix()
 	HmacSampleSecret = []byte("secret")
 )
 

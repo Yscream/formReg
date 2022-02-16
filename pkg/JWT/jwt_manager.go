@@ -21,7 +21,7 @@ func SaveToken(user *models.LoginUser) {
 	db.Exec("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", DB.GetId(user.Email), token)
 }
 
-func DeleteData(token string) {
+func DeleteToken(token string) {
 	db := DB.GetConnection()
 
 	defer db.Close()
@@ -43,14 +43,12 @@ func SendToken(user *models.LoginUser) string {
 }
 
 func ParseJWT(tokenStr string, hmacSecret []byte) error {
-	fmt.Println("sdgsd")
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 		return hmacSecret, nil
 	})
-
 	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		fmt.Println("ololo")
 		return nil
