@@ -3,7 +3,6 @@ package JWT
 import (
 	"time"
 
-	"github.com/Yscream/go-form-reg/pkg/DB"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -15,18 +14,18 @@ type Claims struct {
 }
 
 var (
-	token_exp        = time.Now().Add(time.Minute * 1).Unix()
+	token_exp        = time.Now().Add(time.Minute * 5).Unix()
 	HmacSampleSecret = []byte("secret")
 )
 
-func NewJWT(email string) (string, error) {
+func NewJWT(email, name, lname string, id int) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: token_exp,
 		},
-		UserId: DB.GetId(email),
-		Name:   DB.GetName(email),
-		Lname:  DB.GetLname(email),
+		UserId: id,
+		Name:   name,
+		Lname:  lname,
 	})
 	tokenString, err := token.SignedString(HmacSampleSecret)
 	return tokenString, err

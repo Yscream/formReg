@@ -5,40 +5,41 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Yscream/go-form-reg/configs"
+	"github.com/Yscream/go-form-reg/pkg/DB"
 	"github.com/Yscream/go-form-reg/pkg/handler"
+	"github.com/Yscream/go-form-reg/pkg/service"
 	_ "github.com/lib/pq"
 )
 
 func HandleHTML(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "404 not found.", http.StatusNotFound)
+	if r.URL.Path == "/" {
+		http.ServeFile(w, r, "../assets/index.html")
 		return
 	}
-	http.ServeFile(w, r, "./assets/index.html")
+	http.ServeFile(w, r, "../assets"+r.URL.Path)
 }
 
 func main() {
+	conn, err := configs.GetConfig("../cmd/config.yml")
+	if err != nil {
+		fmt.Println("cannot read config")
+	}
+	db, err := DB.OpenDB(conn)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	connection := service.NewConnect(db)
+
+	http.HandleFunc("/user", handler.NewSignupHandler(connection))
+	http.HandleFunc("/log", handler.NewLogInHandler(connection))
+	http.HandleFunc("/log_out", handler.NewLogOutHandler(connection))
+	http.HandleFunc("/token", handler.NewProfile(connection))
 	http.HandleFunc("/", HandleHTML)
-	http.HandleFunc("/user", handler.SignupHandler)
-	http.HandleFunc("/log", handler.LoginHandler)
-	http.HandleFunc("/log_out", handler.LogOutHandler)
-	http.HandleFunc("/token", handler.ShowProfile)
-
-	http.Handle("/link.html", http.FileServer(http.Dir("./assets")))
-	http.Handle("/after_log.html", http.FileServer(http.Dir("./assets")))
-	http.Handle("/log.html", http.FileServer(http.Dir("./assets")))
-
-	http.Handle("/index.js", http.FileServer(http.Dir("./assets")))
-	http.Handle("/login.js", http.FileServer(http.Dir("./assets")))
-	http.Handle("/log_out.js", http.FileServer(http.Dir("./assets")))
-
-	http.Handle("/style.css", http.FileServer(http.Dir("./assets")))
-	http.Handle("/link.css", http.FileServer(http.Dir("./assets")))
-	http.Handle("/log.css", http.FileServer(http.Dir("./assets")))
-
-	http.Handle("/after_log.css", http.FileServer(http.Dir("./assets")))
 	fmt.Printf("Starting server for testing HTTP POST... PORT: 8033\n")
-	if err := http.ListenAndServe(":8033", nil); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:8033", nil); err != nil {
 		log.Fatal(err)
 	}
+
 }

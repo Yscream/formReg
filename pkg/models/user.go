@@ -1,6 +1,7 @@
 package models
 
 type User struct {
+	ID       int
 	Name     string
 	LastName string
 	Email    string
@@ -16,7 +17,6 @@ type TypeOfErrors struct {
 	FieldName  string
 	MessageErr string
 }
-
 type Person struct {
 	Tokenerr string
 	Name     string

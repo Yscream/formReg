@@ -8,7 +8,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2201  
       POSTGRES_DB: users
-      ENCODING: UTF-8
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
   registration:
@@ -16,3 +15,5 @@ services:
       - "8033:8033"
     build:
       context: .
+    volumes:
+      - ./cmd:/cmd

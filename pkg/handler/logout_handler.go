@@ -3,10 +3,9 @@ package handler
 import (
 	"net/http"
 
-	"github.com/Yscream/go-form-reg/pkg/JWT"
+	"github.com/Yscream/go-form-reg/pkg/service"
 )
 
-func LogOutHandler(w http.ResponseWriter, r *http.Request) {
-	head := r.Header.Get("Authorization")
-	JWT.DeleteToken(head)
+func NewLogOutHandler(app *service.Application) http.HandlerFunc {
+	return app.LogOutHandler
 }

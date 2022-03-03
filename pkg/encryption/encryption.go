@@ -1,27 +1,43 @@
 package encryption
 
 import (
+	"crypto/rand"
+	"crypto/sha1"
 	"fmt"
-	"math/rand"
-	"strings"
-	"time"
+	"io"
+	"os"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GenerateRandomString() string {
-	rand.Seed(time.Now().UnixNano())
-	chars := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ" +
-		"abcdefghijklmnopqrstuvwxyzåäö" +
-		"0123456789")
-	length := 16
-	var b strings.Builder
-	for i := 0; i < length; i++ {
-		b.WriteRune(chars[rand.Intn(len(chars))])
+func GenerateRandomString(secret []byte) []byte {
+	const saltSize = 16
+	buf := make([]byte, saltSize, saltSize+sha1.Size)
+	_, err := io.ReadFull(rand.Reader, buf)
+
+	if err != nil {
+		fmt.Printf("random read failed: %v", err)
+		os.Exit(1)
 	}
-	str := b.String()
-	return str
+	hash := sha1.New()
+	hash.Write(buf)
+	hash.Write(secret)
+	return hash.Sum(buf)
 }
+
+// func GenerateRandomString() string {
+// 	rand.Seed(time.Now().UnixNano())
+// 	chars := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ" +
+// 		"abcdefghijklmnopqrstuvwxyzåäö" +
+// 		"0123456789")
+// 	length := 16
+// 	var b strings.Builder
+// 	for i := 0; i < length; i++ {
+// 		b.WriteRune(chars[rand.Intn(len(chars))])
+// 	}
+// 	str := b.String()
+// 	return str
+// }
 
 func HashPassword(salt, password string) (string, error) {
 	combination := salt + password

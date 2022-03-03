@@ -17,12 +17,12 @@ type Config struct {
 	Sslmode  string
 }
 
-func GetConfig() string {
+func GetConfig(path string) (string, error) {
 
-	yfile, err := ioutil.ReadFile("./cmd/config.yml")
+	yfile, err := ioutil.ReadFile(path)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	c := Config{}
@@ -33,5 +33,5 @@ func GetConfig() string {
 		log.Fatal(err)
 	}
 	result := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s", c.Username, c.Password, c.Host, c.Port, c.Dbname, c.Sslmode)
-	return result
+	return result, err
 }
