@@ -1,0 +1,6 @@
+FROM migrate/migrate:v4.11.0
+
+WORKDIR /
+COPY ./migrations ./migrations
+
+CMD ["-path", "/migrations", "-database",  "postgres://postgres:2201@localhost:6080/users?sslmode=disable", "up"]

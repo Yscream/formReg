@@ -30,7 +30,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	connection := service.NewConnect(db)
+	connection := service.NewConnection(db)
 
 	http.HandleFunc("/user", handler.NewSignupHandler(connection))
 	http.HandleFunc("/log", handler.NewLogInHandler(connection))

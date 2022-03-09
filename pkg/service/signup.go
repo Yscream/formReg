@@ -17,7 +17,7 @@ type Application struct {
 	data *DB.DataBase
 }
 
-func NewConnect(db *sqlx.DB) *Application {
+func NewConnection(db *sqlx.DB) *Application {
 	return &Application{
 		data: &DB.DataBase{
 			DBmodel: db,

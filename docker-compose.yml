@@ -8,8 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2201  
       POSTGRES_DB: users
-    volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
+
   registration:
     ports:
       - "8033:8033"
@@ -17,3 +16,12 @@ services:
       context: .
     volumes:
       - ./cmd:/cmd
+      
+  # db-migrations:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.db-migrations
+  #   volumes:
+  #     - ./migrations:/migrations
+  #   depends_on:
+  #     - postgresql
