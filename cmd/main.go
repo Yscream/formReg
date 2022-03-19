@@ -6,9 +6,9 @@ import (
 	"net/http"
 
 	"github.com/Yscream/go-form-reg/configs"
-	"github.com/Yscream/go-form-reg/pkg/DB"
 	"github.com/Yscream/go-form-reg/pkg/handler"
 	"github.com/Yscream/go-form-reg/pkg/service"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
@@ -21,13 +21,13 @@ func HandleHTML(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	conn, err := configs.GetConfig("../cmd/config.yml")
+	conn, err := configs.InitConfig("../cmd/config.yml")
 	if err != nil {
-		fmt.Println("cannot read config")
+		log.Fatalf("cannot read config")
 	}
-	db, err := DB.OpenDB(conn)
+	db, err := OpenDB(conn)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	connection := service.NewConnection(db)
@@ -41,5 +41,17 @@ func main() {
 	if err := http.ListenAndServe("0.0.0.0:8033", nil); err != nil {
 		log.Fatal(err)
 	}
+}
 
+func OpenDB(conn string) (*sqlx.DB, error) {
+	db, err := sqlx.Open("postgres", conn)
+	db.SetMaxIdleConns(5)
+	db.SetMaxOpenConns(95)
+	if err != nil {
+		return nil, err
+	}
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
+	return db, nil
 }

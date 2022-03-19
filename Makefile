@@ -1,10 +1,14 @@
-run:
-	docker-compose build
-	docker-compose up postgresql
+db:
+	docker-compose up -d
 		
-mig: 
-	docker run -v /mnt/c/Users/Spark/Desktop/clone/go-form-reg/migrations:/migrations --network host migrate/migrate -path=/migrations/ -database "postgres://postgres:2201@localhost:6080/users?sslmode=disable" up
-	docker-compose up
+migrate-up: 
+	migrate -source file://./migrations -database postgres://postgres:2201@localhost:6080/users?sslmode=disable up 
+	
+migrate-down: 
+	migrate -source file://./migrations -database postgres://postgres:2201@localhost:6080/users?sslmode=disable down
+	
+run:
+	docker-compose up --build
 
-stop:
+down:
 	docker-compose down

@@ -17,7 +17,7 @@ type Config struct {
 	Sslmode  string
 }
 
-func GetConfig(path string) (string, error) {
+func InitConfig(path string) (string, error) {
 
 	yfile, err := ioutil.ReadFile(path)
 

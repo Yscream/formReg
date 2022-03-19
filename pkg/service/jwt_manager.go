@@ -10,11 +10,14 @@ import (
 )
 
 func (app *Application) CheckJWT(email, token string, hmacSecret []byte) []models.Person {
-	name, lname := app.data.GetUser(email)
+	name, lname, err := app.data.GetUser(email)
+	if err != nil {
+		fmt.Println("cannot take user:", err)
+	}
 	errors := make([]models.Person, 0)
 	check := ParseJWT(token, hmacSecret)
 	if check != nil {
-		// app.data.DeleteToken(token)
+		app.data.DeleteToken(token)
 		errors = append(errors, models.Person{
 			Tokenerr: check.Error(),
 		})
@@ -33,17 +36,27 @@ func (app *Application) SaveToken(user *models.LoginUser) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	name, lname := app.data.GetUser(user.Email)
+	name, lname, err := app.data.GetUser(user.Email)
+	if err != nil {
+		fmt.Println("cannot take user:", err)
+	}
 
 	token, err := JWT.NewJWT(user.Email, name, lname, id)
 	if err != nil {
 		fmt.Println(err)
 	}
-	app.data.DBmodel.Exec("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, token)
+
+	res := app.data.InsertToken(id, token)
+	if res != nil {
+		fmt.Println(res)
+	}
 }
 
 func (app *Application) DeleteToken(token string) {
-	app.data.DeleteToken(token)
+	res := app.data.DeleteToken(token)
+	if res != nil {
+		fmt.Println(res)
+	}
 }
 
 func (app *Application) SendToken(user *models.LoginUser) string {
@@ -51,11 +64,11 @@ func (app *Application) SendToken(user *models.LoginUser) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var token string
-	err = app.data.DBmodel.Get(&token, "SELECT token FROM tokens WHERE users_id=$1", id)
+	token, err := app.data.SelectToken(id)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 	}
+
 	return token
 }
 

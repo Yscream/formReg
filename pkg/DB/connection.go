@@ -4,19 +4,12 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type DataBase struct {
+type Connection struct {
 	DBmodel *sqlx.DB
 }
 
-func OpenDB(conn string) (*sqlx.DB, error) {
-	db, err := sqlx.Open("postgres", conn)
-	db.SetMaxIdleConns(5)
-	db.SetMaxOpenConns(95)
-	if err != nil {
-		return nil, err
+func NewConnection(db *sqlx.DB) *Connection {
+	return &Connection{
+		DBmodel: db,
 	}
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-	return db, nil
 }

@@ -6,24 +6,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/Yscream/go-form-reg/pkg/DB"
 	"github.com/Yscream/go-form-reg/pkg/encryption"
 	"github.com/Yscream/go-form-reg/pkg/models"
 	"github.com/Yscream/go-form-reg/pkg/validation"
-	"github.com/jmoiron/sqlx"
 )
-
-type Application struct {
-	data *DB.DataBase
-}
-
-func NewConnection(db *sqlx.DB) *Application {
-	return &Application{
-		data: &DB.DataBase{
-			DBmodel: db,
-		},
-	}
-}
 
 func (app *Application) SignupHandler(w http.ResponseWriter, r *http.Request) {
 	user := models.User{}
@@ -53,12 +39,16 @@ func (app *Application) SignupHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	salt := encryption.GenerateRandomString([]byte(user.Password))
 	hash, _ := encryption.HashPassword(base64.StdEncoding.EncodeToString(salt), user.Password)
-	err = app.data.SaveData(base64.StdEncoding.EncodeToString(salt), hash, &user)
+	err = app.data.InsertUser(&user)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	err = app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.Write([]byte("[]"))
 }
 

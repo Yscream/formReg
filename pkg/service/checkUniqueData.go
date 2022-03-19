@@ -21,9 +21,11 @@ func CheckPass(email, password string, app *Application) error {
 		fmt.Println(err)
 	}
 
-	salt, hash := app.data.GetSaltAndHash(id)
+	salt, hash, err := app.data.GetSaltAndHash(id)
 
-	fmt.Println(salt, hash)
+	if err != nil {
+		fmt.Print(err.Error())
+	}
 
 	var combination = salt + password
 
