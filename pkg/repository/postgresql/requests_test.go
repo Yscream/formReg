@@ -1,4 +1,4 @@
-package DB
+package postgresql
 
 import (
 	"testing"
@@ -7,6 +7,7 @@ import (
 )
 
 func TestReq(t *testing.T) {
+	db := getDB(t, testURL)
 
 	testCases1 := map[string]models.User{
 		"Correct data": {Name: "putin", LastName: "dayn", Email: "putinloh@gmail.com", Password: "1111111"},

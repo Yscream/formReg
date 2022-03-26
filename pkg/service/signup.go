@@ -2,54 +2,26 @@ package service
 
 import (
 	"encoding/base64"
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
 
 	"github.com/Yscream/go-form-reg/pkg/encryption"
 	"github.com/Yscream/go-form-reg/pkg/models"
 	"github.com/Yscream/go-form-reg/pkg/validation"
 )
 
-func (app *Application) SignupHandler(w http.ResponseWriter, r *http.Request) {
-	user := models.User{}
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	defer r.Body.Close()
-
-	err = json.Unmarshal([]byte(body), &user)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	errors := Signup(&user, app)
-	if len(errors) > 0 {
-		w.WriteHeader(http.StatusBadRequest)
-		marshalBytes, err := json.Marshal(&errors)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		w.Write(marshalBytes)
-		return
-	}
+func (app *Application) HashingPassword(user *models.User) error {
 	salt := encryption.GenerateRandomString([]byte(user.Password))
 	hash, _ := encryption.HashPassword(base64.StdEncoding.EncodeToString(salt), user.Password)
-	err = app.data.InsertUser(&user)
+	err := app.data.InsertUser(user)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return err
 	}
+
 	err = app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return err
 	}
-	w.Write([]byte("[]"))
+
+	return nil
 }
 
 func Signup(user *models.User, app *Application) []models.TypeOfErrors {

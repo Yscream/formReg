@@ -1,4 +1,4 @@
-package DB
+package postgresql
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/Yscream/go-form-reg/pkg/models"
 )
 
-func (m *Connection) GetUser(email string) (string, string, error) {
+func (m *Repository) GetUser(email string) (string, string, error) {
 	var name, lname string
 	err := m.DBmodel.Get(&name, "SELECT fname FROM users_data WHERE email=$1", email)
 	if err != nil {
@@ -16,11 +16,10 @@ func (m *Connection) GetUser(email string) (string, string, error) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
 	return name, lname, err
 }
 
-func (m *Connection) GetEmail(email string) error {
+func (m *Repository) GetEmail(email string) error {
 	var existEmail string
 	err := m.DBmodel.Get(&existEmail, "SELECT email FROM users_data WHERE email=$1", email)
 	if err != nil {
@@ -29,7 +28,7 @@ func (m *Connection) GetEmail(email string) error {
 	return err
 }
 
-func (m *Connection) GetId(email string) (int, error) {
+func (m *Repository) GetId(email string) (int, error) {
 	var id int
 	err := m.DBmodel.Get(&id, "SELECT id FROM users_data WHERE email=$1", email)
 	if err != nil {
@@ -38,7 +37,7 @@ func (m *Connection) GetId(email string) (int, error) {
 	return id, err
 }
 
-func (m *Connection) GetSaltAndHash(id int) (string, string, error) {
+func (m *Repository) GetSaltAndHash(id int) (string, string, error) {
 	var salt, hash string
 	err := m.DBmodel.Get(&salt, "SELECT salt FROM credentials WHERE users_id=$1", id)
 	if err != nil {
@@ -51,7 +50,7 @@ func (m *Connection) GetSaltAndHash(id int) (string, string, error) {
 	return salt, hash, err
 }
 
-func (m *Connection) InsertUser(user *models.User) error {
+func (m *Repository) InsertUser(user *models.User) error {
 	result, err := m.DBmodel.Queryx("INSERT INTO users_data (fname,lname,email)  VALUES($1, $2, $3) RETURNING id", user.Name, user.LastName, user.Email)
 	if err != nil {
 		fmt.Printf("smth wrong in requests, 57 string, %v", err)
@@ -67,7 +66,7 @@ func (m *Connection) InsertUser(user *models.User) error {
 	return nil
 }
 
-func (m *Connection) InsertPassword(id int, salt, hash string) error {
+func (m *Repository) InsertPassword(id int, salt, hash string) error {
 	_, err := m.DBmodel.Queryx("INSERT INTO credentials (users_id, salt, hash)  VALUES($1, $2, $3)", id, salt, hash)
 	if err != nil {
 		fmt.Print("cannot insert password", err)
@@ -76,7 +75,7 @@ func (m *Connection) InsertPassword(id int, salt, hash string) error {
 	return nil
 }
 
-func (m *Connection) InsertToken(id int, token string) error {
+func (m *Repository) InsertToken(id int, token string) error {
 	_, err := m.DBmodel.Exec("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, token)
 	if err != nil {
 		fmt.Println("cannot delete token", err)
@@ -85,16 +84,7 @@ func (m *Connection) InsertToken(id int, token string) error {
 	return nil
 }
 
-func (m *Connection) DeleteToken(token string) error {
-	_, err := m.DBmodel.Exec("DELETE FROM tokens WHERE token=$1", token)
-	if err != nil {
-		fmt.Println("cannot delete token", err)
-		return err
-	}
-	return nil
-}
-
-func (m *Connection) SelectToken(id int) (string, error) {
+func (m *Repository) SelectToken(id int) (string, error) {
 	var token string
 	err := m.DBmodel.Get(&token, "SELECT token FROM tokens WHERE users_id=$1", id)
 	if err != nil {
@@ -102,4 +92,13 @@ func (m *Connection) SelectToken(id int) (string, error) {
 		return "", err
 	}
 	return token, err
+}
+
+func (m *Repository) DeleteToken(token string) error {
+	_, err := m.DBmodel.Exec("DELETE FROM tokens WHERE token=$1", token)
+	if err != nil {
+		fmt.Println("cannot delete token", err)
+		return err
+	}
+	return nil
 }
