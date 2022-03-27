@@ -23,3 +23,8 @@ type Person struct {
 	Lname    string
 	Email    string
 }
+
+type Error struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}

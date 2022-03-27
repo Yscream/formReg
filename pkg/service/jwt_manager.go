@@ -59,7 +59,7 @@ func (app *Application) DeleteToken(token string) {
 	}
 }
 
-func (app *Application) SendToken(user *models.LoginUser) string {
+func (app *Application) SelectToken(user *models.LoginUser) string {
 	id, err := app.data.GetId(user.Email)
 	if err != nil {
 		fmt.Println(err)

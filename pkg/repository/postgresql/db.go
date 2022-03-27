@@ -8,8 +8,8 @@ type Repository struct {
 
 func OpenDB(conn string) (*Repository, error) {
 	db, err := sqlx.Connect("postgres", conn)
-	db.SetMaxIdleConns(5)
-	db.SetMaxOpenConns(95)
+	// db.SetMaxIdleConns(5)
+	// db.SetMaxOpenConns(95)
 
 	if err != nil {
 		return nil, err

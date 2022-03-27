@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Yscream/go-form-reg/configs"
-	"github.com/Yscream/go-form-reg/pkg/handler"
+	"github.com/Yscream/go-form-reg/pkg/api"
 	"github.com/Yscream/go-form-reg/pkg/repository/postgresql"
 	"github.com/Yscream/go-form-reg/pkg/service"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -30,16 +30,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	repository := service.NewConnection(db)
 
-	connection := service.NewConnection(db)
-
-	http.HandleFunc("/user", handler.NewSignupHandler(connection))
-	http.HandleFunc("/log", handler.NewLogInHandler(connection))
-	http.HandleFunc("/log_out", handler.NewLogOutHandler(connection))
-	http.HandleFunc("/token", handler.NewProfile(connection))
-	http.HandleFunc("/", HandleHTML)
 	fmt.Printf("Starting server for testing HTTP POST... PORT: 8033\n")
-	if err := http.ListenAndServe("0.0.0.0:8033", nil); err != nil {
+	// http.HandleFunc("/user", handler.NewSignupHandler(connection))
+	// http.HandleFunc("/log", handler.NewLogInHandler(connection))
+	// http.HandleFunc("/log_out", handler.NewLogOutHandler(connection))
+	// http.HandleFunc("/token", handler.NewProfile(connection))
+	// http.HandleFunc("/", HandleHTML)
+	if err := http.ListenAndServe("0.0.0.0:8033", api.NewRouters(repository)); err != nil {
 		log.Fatal(err)
 	}
 }

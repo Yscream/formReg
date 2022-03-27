@@ -28,6 +28,15 @@ func (m *Repository) GetEmail(email string) error {
 	return err
 }
 
+func (m *Repository) GetEmailByToken(token string) (string, error) {
+	var email string
+	err := m.DBmodel.Get(&email, "SELECT u.email FROM users_data u, tokens t WHERE t.id=$1", token)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return email, nil
+}
+
 func (m *Repository) GetId(email string) (int, error) {
 	var id int
 	err := m.DBmodel.Get(&id, "SELECT id FROM users_data WHERE email=$1", email)
