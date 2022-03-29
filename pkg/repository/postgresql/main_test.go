@@ -64,17 +64,6 @@ func TestMain(m *testing.M) {
 	exitCode = m.Run()
 }
 
-func getDB(t *testing.T, dbURL string) *Repository {
-	t.Helper()
-
-	db, err := OpenDB(dbURL)
-	if err != nil {
-		t.Fatalf("Could not connect to db, err: %s", err.Error())
-	}
-
-	return db
-}
-
 func migrations(migs, dbURL string) error {
 	mgrt, err := migrate.New("file://"+migs, dbURL)
 	if err != nil {
@@ -86,4 +75,15 @@ func migrations(migs, dbURL string) error {
 		return errors.Errorf("Could not apply migrations: %s, err: %s", migs, err.Error())
 	}
 	return nil
+}
+
+func getDB(t *testing.T, dbURL string) *Repository {
+	t.Helper()
+
+	db, err := OpenDB(dbURL)
+	if err != nil {
+		t.Fatalf("Could not connect to db, err: %s", err.Error())
+	}
+
+	return db
 }

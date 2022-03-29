@@ -32,15 +32,18 @@ func sdadas(t *testing.T) {
 	t.Run("aaa", func(t *testing.T) {
 		db := getDB(t, testURL)
 		user := models.User{Name: "Big", LastName: "Bob", Email: "bigbog123@gmail.com", Password: "bigbob123"}
-		// if len(user.Name) > 0 || len(user.LastName) > 0 || len(user.Email) > 0 || len(user.Password) > 0 {
+
 		err := db.InsertUser(&user)
 		if err != nil {
 			t.Logf("cannot insert user")
 		}
 	})
 
-	// }
 }
+
+// if len(user.Name) > 0 || len(user.LastName) > 0 || len(user.Email) > 0 || len(user.Password) > 0 {
+
+// }
 
 // func TestReq(t *testing.T) {
 // 	db := getDB(t, testURL)
