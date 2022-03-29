@@ -46,7 +46,7 @@ func (handler *ServiceHandler) NewSignupHandler(w http.ResponseWriter, r *http.R
 		w.Write(marshalBytes)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 }
 
 var Email string

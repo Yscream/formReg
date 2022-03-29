@@ -13,14 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func HandleHTML(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/" {
-		http.ServeFile(w, r, "../assets/index.html")
-		return
-	}
-	http.ServeFile(w, r, "../assets"+r.URL.Path)
-}
-
 func main() {
 	conn, err := configs.InitConfig("../cmd/config.yml")
 	if err != nil {
@@ -33,12 +25,5 @@ func main() {
 	repository := service.NewConnection(db)
 
 	fmt.Printf("Starting server for testing HTTP POST... PORT: 8033\n")
-	// http.HandleFunc("/user", handler.NewSignupHandler(connection))
-	// http.HandleFunc("/log", handler.NewLogInHandler(connection))
-	// http.HandleFunc("/log_out", handler.NewLogOutHandler(connection))
-	// http.HandleFunc("/token", handler.NewProfile(connection))
-	// http.HandleFunc("/", HandleHTML)
-	if err := http.ListenAndServe("0.0.0.0:8033", api.NewRouters(repository)); err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(http.ListenAndServe(":8033", api.NewRouters(repository)))
 }

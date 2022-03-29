@@ -7,13 +7,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// func HandleHTML(w http.ResponseWriter, r *http.Request) {
-// 	if r.URL.Path == "/" {
-// 		http.ServeFile(w, r, "../assets/index.html")
-// 		return
-// 	}
-// 	http.ServeFile(w, r, "../assets"+r.URL.Path)
-// }
+func HandleHTML(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/" {
+		http.ServeFile(w, r, "../assets/index.html")
+		return
+	}
+	http.ServeFile(w, r, "../assets"+r.URL.Path)
+}
 
 func NewRouters(service *service.Application) *mux.Router {
 	router := mux.NewRouter()
@@ -22,6 +22,6 @@ func NewRouters(service *service.Application) *mux.Router {
 	router.HandleFunc("/log", handler.NewLogInHandler)
 	router.HandleFunc("/log_out", handler.NewLogOutHandler)
 	router.HandleFunc("/token", handler.ShowProfile)
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./assets/")))
+	router.HandleFunc("/", HandleHTML)
 	return router
 }

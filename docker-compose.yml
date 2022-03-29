@@ -1,5 +1,15 @@
 version: "3.9"
 services:
+  registration:
+    ports:
+      - "8033:8033"
+    build:
+      context: .
+    volumes:
+      - ./cmd:/cmd
+    depends_on:
+      - "postgresql"
+
   postgresql:
     image: "postgres:14.1"
     ports:
@@ -8,20 +18,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2201  
       POSTGRES_DB: users
-
-  registration:
-    ports:
-      - "8033:8033"
-    build:
-      context: .
-    volumes:
-      - ./cmd:/cmd
       
-  # db-migrations:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.db-migrations
-  #   volumes:
-  #     - ./migrations:/migrations
-  #   depends_on:
-  #     - postgresql
