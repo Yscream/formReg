@@ -22,7 +22,8 @@ func GenerateRandomString(secret []byte) []byte {
 	hash := sha1.New()
 	hash.Write(buf)
 	hash.Write(secret)
-	return hash.Sum(buf)
+	result := hash.Sum(buf)
+	return result
 }
 
 func HashPassword(salt, password string) (string, error) {

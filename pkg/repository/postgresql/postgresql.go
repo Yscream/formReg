@@ -19,13 +19,13 @@ func (m *Repository) GetUser(email string) (string, string, error) {
 	return name, lname, err
 }
 
-func (m *Repository) GetEmail(email string) error {
+func (m *Repository) GetEmail(email string) (string, error) {
 	var existEmail string
 	err := m.DBmodel.Get(&existEmail, "SELECT email FROM users_data WHERE email=$1", email)
 	if err != nil {
 		fmt.Println("Incorrect email")
 	}
-	return err
+	return existEmail, err
 }
 
 func (m *Repository) GetEmailByToken(token string) (string, error) {
@@ -62,7 +62,7 @@ func (m *Repository) GetSaltAndHash(id int) (string, string, error) {
 func (m *Repository) InsertUser(user *models.User) error {
 	result, err := m.DBmodel.Queryx("INSERT INTO users_data (fname,lname,email)  VALUES($1, $2, $3) RETURNING id", user.Name, user.LastName, user.Email)
 	if err != nil {
-		fmt.Printf("smth wrong in requests, 57 string, %v", err)
+		fmt.Printf("cannot insert user, %v", err.Error())
 		return err
 	}
 	for result.Next() {
@@ -85,7 +85,7 @@ func (m *Repository) InsertPassword(id int, salt, hash string) error {
 }
 
 func (m *Repository) InsertToken(id int, token string) error {
-	_, err := m.DBmodel.Exec("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, token)
+	_, err := m.DBmodel.Queryx("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, token)
 	if err != nil {
 		fmt.Println("cannot delete token", err)
 		return err
@@ -104,7 +104,7 @@ func (m *Repository) SelectToken(id int) (string, error) {
 }
 
 func (m *Repository) DeleteToken(token string) error {
-	_, err := m.DBmodel.Exec("DELETE FROM tokens WHERE token=$1", token)
+	_, err := m.DBmodel.Queryx("DELETE FROM tokens WHERE token=$1", token)
 	if err != nil {
 		fmt.Println("cannot delete token", err)
 		return err
