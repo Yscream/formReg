@@ -65,70 +65,70 @@ func Test_InsertUser_IncorrectFields_False(t *testing.T) {
 	}
 }
 
-// func Test_InsertPassword_CorrectField_True(t *testing.T) {
-// 	db := getDB(t, testURL)
+func Test_InsertPassword_CorrectField_True(t *testing.T) {
+	db := getDB(t, testURL)
 
-// 	err := db.InsertPassword(userTrue.ID, credentialsTrue.Salt, credentialsTrue.Hash)
-// 	if err != nil {
-// 		t.Error("cannot insertPassword", err.Error())
-// 	}
-// }
+	err := db.InsertPassword(userTrue.ID, credentialsTrue.Salt, credentialsTrue.Hash)
+	if err != nil {
+		t.Error("cannot insertPassword", err.Error())
+	}
+}
 
-// func Test_InsertPassword_IncorrectField_False(t *testing.T) {
-// 	db := getDB(t, testURL)
+func Test_InsertPassword_IncorrectField_False(t *testing.T) {
+	db := getDB(t, testURL)
 
-// 	if len(credentialsFalse.Salt) < 0 || len(credentialsFalse.Hash) < 0 {
-// 		t.Errorf("cannot insert user")
-// 	}
-// 	err := db.InsertPassword(userFalse.ID, credentialsTrue.Salt, credentialsTrue.Hash)
-// 	if err != nil {
-// 		t.Error("cannot insertPassword", err.Error())
-// 	}
-// }
+	if len(credentialsFalse.Salt) < 0 || len(credentialsFalse.Hash) < 0 {
+		t.Errorf("cannot insert user")
+	}
+	err := db.InsertPassword(userFalse.ID, credentialsTrue.Salt, credentialsTrue.Hash)
+	if err != nil {
+		t.Error("cannot insertPassword", err.Error())
+	}
+}
 
-// func Test_GetId_FieldWithIdIsNotEmpty_True(t *testing.T) {
-// 	db := getDB(t, testURL)
+func Test_GetId_FieldWithIdIsNotEmpty_True(t *testing.T) {
+	db := getDB(t, testURL)
 
-// 	testId, err := db.GetId(userTrue.Email)
-// 	if err != nil {
-// 		t.Error("cannot take id", testId, err.Error())
-// 	}
-// }
+	testId, err := db.GetId(userTrue.Email)
+	if err != nil {
+		t.Error("cannot take id", testId, err.Error())
+	}
+}
 
-// func Test_GetId_FieldWithIdIsEmpty_False(t *testing.T) {
-// 	db := getDB(t, testURL)
-// 	testId, err := db.GetId(userFalse.Email)
-// 	if err != nil {
-// 		t.Error("cannot take id", testId, err.Error())
-// 	}
-// }
+func Test_GetId_FieldWithIdIsEmpty_False(t *testing.T) {
+	db := getDB(t, testURL)
+	testId, err := db.GetId(userFalse.Email)
+	if err != nil {
+		t.Error("cannot take id", testId, err.Error())
+	}
+}
 
-// func Test_GetEmail_FieldWithEmailIsNotEmpty_True(t *testing.T) {
-// 	db := getDB(t, testURL)
-// 	testEmail, err := db.GetEmail(userTrue.Email)
-// 	if err != nil {
-// 		t.Error("cannot take email", testEmail, err.Error())
-// 	}
-// }
+func Test_GetEmail_FieldWithEmailIsNotEmpty_True(t *testing.T) {
+	db := getDB(t, testURL)
+	testEmail, err := db.GetEmail(userTrue.Email)
+	if err != nil {
+		t.Error("cannot take email", testEmail, err.Error())
+	}
+}
 
-// func Test_GetSaltAndHash_FieldWithCredetialsIsNotEmpty_True(t *testing.T) {
-// 	db := getDB(t, testURL)
-// 	getSalt, getHash, err := db.GetSaltAndHash(userTrue.ID)
-// 	if err != nil {
-// 		t.Error("cannot take salt and id", getSalt, getHash, err)
-// 	}
-// }
+func Test_GetSaltAndHash_FieldWithCredetialsIsNotEmpty_True(t *testing.T) {
+	db := getDB(t, testURL)
+	getSalt, getHash, err := db.GetSaltAndHash(userTrue.ID)
+	if err != nil {
+		t.Error("cannot take salt and id", getSalt, getHash, err)
+	}
+}
 
-// func Test_GetSaltAndHash_FieldWithCredetialsIsEmpty_False(t *testing.T) {
-// 	db := getDB(t, testURL)
-// 	getSalt, getHash, err := db.GetSaltAndHash(userFalse.ID)
-// 	if len(getSalt) < 0 || len(getHash) < 0 {
-// 		t.Error("cannot insert user", err.Error())
-// 	}
-// 	// if err != nil {
-// 	// 	t.Error("cannot take salt and id", getSalt, getHash, err)
-// 	// }
-// }
+func Test_GetSaltAndHash_FieldWithCredetialsIsEmpty_False(t *testing.T) {
+	db := getDB(t, testURL)
+	getSalt, getHash, err := db.GetSaltAndHash(userFalse.ID)
+	if len(getSalt) < 0 || len(getHash) < 0 {
+		t.Error("cannot insert user", err.Error())
+	}
+	// if err != nil {
+	// 	t.Error("cannot take salt and id", getSalt, getHash, err)
+	// }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // func InsertUser_IncorrectFields_False(t *testing.T) {
