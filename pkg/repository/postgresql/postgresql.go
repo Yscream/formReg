@@ -46,17 +46,18 @@ func (m *Repository) GetId(email string) (int, error) {
 	return id, err
 }
 
-func (m *Repository) GetSaltAndHash(id int) (string, string, error) {
-	var salt, hash string
-	err := m.DBmodel.Get(&salt, "SELECT salt FROM credentials WHERE users_id=$1", id)
+func (m *Repository) GetCredentials(id int) (models.Credentials, error) {
+	cred := models.Credentials{}
+
+	err := m.DBmodel.Get(&cred, "SELECT * FROM credentials WHERE users_id=$1", id)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	err = m.DBmodel.Get(&hash, "SELECT hash FROM credentials WHERE users_id=$1", id)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	return salt, hash, err
+	// err = m.DBmodel.Get(&hash, "SELECT hash FROM credentials WHERE users_id=$1", id)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
+	return cred, err
 }
 
 func (m *Repository) InsertUser(user *models.User) error {

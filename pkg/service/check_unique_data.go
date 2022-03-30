@@ -21,15 +21,15 @@ func CheckPass(email, password string, app *Application) error {
 		fmt.Println(ok)
 	}
 
-	salt, hash, err := app.data.GetSaltAndHash(id)
+	cred, err := app.data.GetCredentials(id)
 
 	if err != nil {
 		fmt.Print(err.Error())
 	}
 
-	var combination = salt + password
+	var combination = cred.Salt + password
 
-	compare := encryption.CheckPasswordAndHash(combination, hash)
+	compare := encryption.CheckPasswordAndHash(combination, cred.Hash)
 	fmt.Println(compare)
 
 	return compare

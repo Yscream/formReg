@@ -9,11 +9,13 @@ type User struct {
 }
 
 type Credentials struct {
-	Salt string
-	Hash string
+	ID   int    `db:"users_id"`
+	Salt string `db:"salt"`
+	Hash string `db:"hash"`
 }
 
 type AccessToken struct {
+	ID    int
 	Token string
 }
 
