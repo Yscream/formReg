@@ -25,5 +25,5 @@ func main() {
 	repository := service.NewConnection(db)
 
 	fmt.Printf("Starting server for testing HTTP POST... PORT: 8033\n")
-	log.Fatal(http.ListenAndServe(":8033", api.NewRouters(repository)))
+	log.Fatal(http.ListenAndServe(":8033", api.NewRouter(repository)))
 }

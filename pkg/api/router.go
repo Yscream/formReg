@@ -15,7 +15,7 @@ func HandleHTML(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "../assets"+r.URL.Path)
 }
 
-func NewRouters(service *service.Application) *mux.Router {
+func NewRouter(service *service.Application) *mux.Router {
 	router := mux.NewRouter()
 	handler := NewHandler(service)
 	router.HandleFunc("/user", handler.NewSignupHandler)
