@@ -31,7 +31,7 @@ import (
 // example: Given_UserIsAuthenticated_When_InvalidAccountNumberIsUsedToWithdrawMoney_Then_TransactionsWillFail
 
 var userCorrectFields = models.User{ID: 1, Name: "Big", LastName: "Bob", Email: "bigbog123@gmail.com", Password: "bigbob123"}
-var userWithSameEmail = models.User{Name: "Bob", LastName: "Big", Email: "bigbog123@gmail.com", Password: "bigbob123"}
+var userWithSameEmail = models.User{ID: 2, Name: "Bob", LastName: "Big", Email: "bigbog123@gmail.com", Password: "bigbob123"}
 var userFalse = models.User{Name: "", LastName: "", Email: "", Password: ""}
 var credentialsTrue = models.Credentials{Salt: "7oGQ7CwmdjEXV7NU", Hash: "ztS5F8G5IfOH3mSu"}
 var credentialsFalse = models.Credentials{Salt: "", Hash: ""}

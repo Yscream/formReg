@@ -2,24 +2,21 @@ package service
 
 import (
 	"encoding/base64"
+	"fmt"
 
 	"github.com/Yscream/go-form-reg/pkg/encryption"
 	"github.com/Yscream/go-form-reg/pkg/models"
 	"github.com/Yscream/go-form-reg/pkg/validation"
 )
 
-func (app *Application) HashingPassword(user *models.User) error {
-	salt := encryption.GenerateRandomString([]byte(user.Password))
+func (app *Application) InsertUserData(user *models.User) error {
+	salt := encryption.GenerateRandomString([]byte(user.Email))
 	hash, _ := encryption.HashPassword(base64.StdEncoding.EncodeToString(salt), user.Password)
 	err := app.data.InsertUser(user)
 	if err != nil {
-		return err
+		fmt.Println("sa")
 	}
-
-	err = app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
-	if err != nil {
-		return err
-	}
+	app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
 
 	return nil
 }
@@ -47,8 +44,8 @@ func Signup(user *models.User, app *Application) []models.TypeOfErrors {
 			MessageErr: "Incorrect email address",
 		})
 	}
-	CheckEmail := CheckEmail(user.Email, app)
-	if CheckEmail == nil {
+	CheckEmail, _ := app.data.GetEmail(user.Email)
+	if CheckEmail == user.Email {
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "Email",
 			MessageErr: "Email address already registered",

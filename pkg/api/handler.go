@@ -35,6 +35,7 @@ func (handler *ServiceHandler) NewSignupHandler(w http.ResponseWriter, r *http.R
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	fmt.Println("38", err)
 	errors := service.Signup(&user, handler.service)
 	if len(errors) > 0 {
 		w.WriteHeader(http.StatusBadRequest)
@@ -46,7 +47,16 @@ func (handler *ServiceHandler) NewSignupHandler(w http.ResponseWriter, r *http.R
 		w.Write(marshalBytes)
 		return
 	}
+	fmt.Println("50", err)
+	err = handler.service.InsertUserData(&user)
+	fmt.Println("52", err)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("[]"))
 }
 
 var Email string
@@ -94,8 +104,8 @@ func (handler *ServiceHandler) NewLogOutHandler(w http.ResponseWriter, r *http.R
 }
 
 func (handler *ServiceHandler) ShowProfile(w http.ResponseWriter, r *http.Request) {
-	head := r.Header.Get("Authorization")
-	profile := handler.service.CheckJWT(Email, head, JWT.HmacSampleSecret)
+	token := r.Header.Get("Authorization")
+	profile := handler.service.CheckJWT(Email, token, JWT.HmacSampleSecret)
 
 	marshal, err := json.Marshal(&profile)
 	if err != nil {

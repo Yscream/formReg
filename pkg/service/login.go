@@ -11,8 +11,8 @@ var Email string
 func Login(user *models.LoginUser, app *Application) []models.TypeOfErrors {
 	errors := make([]models.TypeOfErrors, 0)
 
-	checkEmail := CheckEmail(user.Email, app)
-	if checkEmail != nil {
+	checkEmail, _ := app.data.GetEmail(user.Email)
+	if checkEmail != user.Email {
 		fmt.Println("from login", checkEmail)
 		errors = append(errors, models.TypeOfErrors{
 			FieldName:  "Email",

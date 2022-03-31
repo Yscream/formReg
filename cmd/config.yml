@@ -1,6 +1,6 @@
 username: "postgres"
 password: "2201"
-host: "go-form-reg_postgresql_1"
+host: "postgresql"
 port: 5432
 dbname: "users"
 sslmode: "disable"
