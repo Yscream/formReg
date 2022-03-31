@@ -30,8 +30,9 @@ type TypeOfErrors struct {
 }
 
 type Person struct {
-	Tokenerr string
-	Name     string
-	Lname    string
-	Email    string
+	Token string `db:"tokens"`
+	ID    int    `db:"id"`
+	Name  string `db:"fname"`
+	Lname string `db:"lname"`
+	Email string `db:"email"`
 }

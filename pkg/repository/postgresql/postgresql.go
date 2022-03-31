@@ -6,17 +6,13 @@ import (
 	"github.com/Yscream/go-form-reg/pkg/models"
 )
 
-func (m *Repository) GetUser(email string) (string, string, error) {
-	var name, lname string
-	err := m.DBmodel.Get(&name, "SELECT fname FROM users_data WHERE email=$1", email)
+func (m *Repository) GetUser(email string) (models.Person, error) {
+	user := models.Person{}
+	err := m.DBmodel.Get(&user, "SELECT * FROM users_data WHERE email=$1", email)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	err = m.DBmodel.Get(&lname, "SELECT lname FROM users_data WHERE email=$1", email)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	return name, lname, err
+	return user, err
 }
 
 func (m *Repository) GetEmail(email string) (string, error) {

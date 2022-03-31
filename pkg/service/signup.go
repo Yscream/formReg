@@ -14,7 +14,7 @@ func (app *Application) InsertUserData(user *models.User) error {
 	hash, _ := encryption.HashPassword(base64.StdEncoding.EncodeToString(salt), user.Password)
 	err := app.data.InsertUser(user)
 	if err != nil {
-		fmt.Println("sa")
+		fmt.Println("cannot insert user")
 	}
 	app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
 

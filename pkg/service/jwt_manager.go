@@ -10,7 +10,7 @@ import (
 )
 
 func (app *Application) CheckJWT(email, token string, hmacSecret []byte) []models.Person {
-	name, lname, err := app.data.GetUser(email)
+	person, err := app.data.GetUser(email)
 	if err != nil {
 		fmt.Println("cannot take user:", err)
 	}
@@ -19,13 +19,14 @@ func (app *Application) CheckJWT(email, token string, hmacSecret []byte) []model
 	if check != nil {
 		app.data.DeleteToken(token)
 		errors = append(errors, models.Person{
-			Tokenerr: check.Error(),
+			Token: check.Error(),
 		})
 		return errors
 	}
 	errors = append(errors, models.Person{
-		Name:  name,
-		Lname: lname,
+		ID:    person.ID,
+		Name:  person.Name,
+		Lname: person.Lname,
 		Email: email,
 	})
 	return errors
@@ -36,12 +37,12 @@ func (app *Application) SaveToken(user *models.LoginUser) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	name, lname, err := app.data.GetUser(user.Email)
+	person, err := app.data.GetUser(user.Email)
 	if err != nil {
 		fmt.Println("cannot take user:", err)
 	}
 
-	token, err := JWT.NewJWT(user.Email, name, lname, id)
+	token, err := JWT.NewJWT(user.Email, person.Name, person.Lname, id)
 	if err != nil {
 		fmt.Println(err)
 	}

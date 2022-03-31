@@ -31,8 +31,10 @@ import (
 // example: Given_UserIsAuthenticated_When_InvalidAccountNumberIsUsedToWithdrawMoney_Then_TransactionsWillFail
 
 var userCorrectFields = models.User{ID: 1, Name: "Big", LastName: "Bob", Email: "bigbog123@gmail.com", Password: "bigbob123"}
-var userWithSameEmail = models.User{ID: 2, Name: "Bob", LastName: "Big", Email: "bigbog123@gmail.com", Password: "bigbob123"}
-var userFalse = models.User{Name: "", LastName: "", Email: "", Password: ""}
+var userWithSameEmail = models.User{ID: 2, Name: "Putin", LastName: "Huilo", Email: "bigbog123@gmail.com", Password: "bigbob123"}
+var userWithSameID = models.User{ID: 1, Name: "John", LastName: "Armstrong", Email: "johnbog1234@gmail.com", Password: "bigbob123"}
+var userWithEmptyFields = models.User{Name: "", LastName: "", Email: "", Password: ""}
+
 var credentialsTrue = models.Credentials{Salt: "7oGQ7CwmdjEXV7NU", Hash: "ztS5F8G5IfOH3mSu"}
 var credentialsFalse = models.Credentials{Salt: "", Hash: ""}
 var accessTokenTrue = models.AccessToken{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
@@ -46,7 +48,14 @@ func Test_InsertUserCorrectFields_Success(t *testing.T) {
 		t.Error("cannot insert user", err.Error())
 	}
 	t.Run("getUser", func(t *testing.T) {
-
+		getuser, err := db.GetUser(userCorrectFields.Email)
+		if userCorrectFields.Name == getuser.Name && userCorrectFields.LastName == getuser.Lname {
+			t.Log("db:", getuser.Name, getuser.Lname,
+				"coincides with userCorrectFields: ", userCorrectFields.Name, userCorrectFields.LastName)
+		}
+		if err != nil {
+			t.Errorf("cannot take user, %s", err.Error())
+		}
 	})
 }
 

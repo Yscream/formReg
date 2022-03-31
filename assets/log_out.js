@@ -36,7 +36,7 @@ check_token.addEventListener('click', () => {
         return response.json();})
     .then((data) => {
         for (let obj of data) {
-            if (obj.Tokenerr !== "") {
+            if (obj.Token !== "") {
                 localStorage.clear()
                 window.location.href = window.location.origin
                 alert(obj.Tokenerr)
