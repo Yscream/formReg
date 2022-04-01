@@ -40,18 +40,21 @@ var credentialsFalse = models.Credentials{Salt: "", Hash: ""}
 var accessTokenTrue = models.AccessToken{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
 var accessTokenFalse = models.AccessToken{Token: ""}
 
-func Test_InsertUserCorrectFields_Success(t *testing.T) {
+func Test_InsertUserWithCorrectFields_Success(t *testing.T) {
 	db := getDB(t, testURL)
 
-	err := db.InsertUser(&userCorrectFields)
+	err := db.InsertUser(&userWithCorrectFields)
 	if err != nil {
-		t.Error("cannot insert user", err.Error())
+		t.Errorf("cannot insert user %s", err.Error())
 	}
 	t.Run("getUser", func(t *testing.T) {
-		getuser, err := db.GetUser(userCorrectFields.Email)
-		if userCorrectFields.Name == getuser.Name && userCorrectFields.LastName == getuser.Lname {
-			t.Log("db:", getuser.Name, getuser.Lname,
-				"coincides with userCorrectFields: ", userCorrectFields.Name, userCorrectFields.LastName)
+		getuser, err := db.GetUser(userWithCorrectFields.Email)
+		if userWithCorrectFields.ID == getuser.ID &&
+			userWithCorrectFields.Name == getuser.Name &&
+			userWithCorrectFields.LastName == getuser.Lname &&
+			userWithCorrectFields.Email == getuser.Email {
+			t.Logf("db:( ID: %d Name: %s, Lname: %s Email: %s) coincides with userCorrectFields:( ID: %d Name: %s, Lname: %s Email: %s)",
+				getuser.ID, getuser.Name, getuser.Lname, getuser.Email, userWithCorrectFields.ID, userWithCorrectFields.Name, userWithCorrectFields.LastName, userWithCorrectFields.Email)
 		}
 		if err != nil {
 			t.Errorf("cannot take user, %s", err.Error())
@@ -59,15 +62,86 @@ func Test_InsertUserCorrectFields_Success(t *testing.T) {
 	})
 }
 
-func Test_InsertUserWithSameEmail_Fail(t *testing.T) {
+func Test_InsertCredentials_Success(t *testing.T) {
 	db := getDB(t, testURL)
 
-	err := db.InsertUser(&userWithSameEmail)
-	if err == nil {
-		t.Error("cannot insert user", err.Error())
+	err := db.InsertCredentials(&credentialsCorrectFields)
+	if err != nil {
+		t.Errorf("cannot insert credentials, %s", err.Error())
+	}
+	t.Run("getCredetials", func(t *testing.T) {
+		getCred, err := db.GetCredentials(credentialsCorrectFields.ID)
+		if credentialsCorrectFields.ID == getCred.ID &&
+			credentialsCorrectFields.Salt == getCred.Salt &&
+			credentialsCorrectFields.Hash == getCred.Hash {
+			t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
+				getCred.ID, getCred.Salt, getCred.Hash, credentialsCorrectFields.ID, credentialsCorrectFields.Salt, credentialsCorrectFields.Hash)
+		}
+		if err != nil {
+			t.Errorf("cannot take credentials %s", err.Error())
+		}
+	})
+}
+
+func Test_GetId_Success(t *testing.T) {
+	db := getDB(t, testURL)
+
+	testU := models.User{ID: 3, Name: "Michel", LastName: "Oddman", Email: "michelodd121@gmail.com", Password: "michelodmichel1"}
+	t.Run("insertUser", func(t *testing.T) {
+		err := db.InsertUser(&testU)
+		if err != nil {
+			t.Errorf("cannot insert user %s", err.Error())
+		}
+	})
+	id, err := db.GetId(testU.Email)
+	if id == testU.ID {
+		t.Logf("db: (ID: %d) match with testU: (ID: %d)", id, testU.ID)
+	}
+	if err != nil {
+		t.Errorf("cannot get id %s", err.Error())
 	}
 }
 
+func Test_GetEmail_Success(t *testing.T) {
+	db := getDB(t, testURL)
+
+	testU := models.User{ID: 4, Name: "Mike", LastName: "Deal", Email: "mikysq121@gmail.com", Password: "micksssas"}
+	t.Run("insertUser", func(t *testing.T) {
+		err := db.InsertUser(&testU)
+		if err != nil {
+			t.Errorf("cannot insert user %s", err.Error())
+		}
+	})
+	email, err := db.GetEmail(testU.Email)
+	if email == testU.Email {
+		t.Logf("db: (Email: %s) match with testU: (Email: %d)", email, testU.ID)
+	}
+	if err != nil {
+		t.Errorf("cannot get email %s", err.Error())
+	}
+}
+
+func Test_GetCredentials_Success(t *testing.T) {
+	db := getDB(t, testURL)
+
+	testC := models.Credentials{ID: 2, Salt: "7oGQ7sd2CwmdjEXV7sds1NU", Hash: "xx2431ztS5F8G5sda21IfOH3mSu"}
+	t.Run("insertCredentials", func(t *testing.T) {
+		err := db.InsertCredentials(&testC)
+		if err != nil {
+			t.Errorf("cannot insert user %s", err.Error())
+		}
+	})
+	getCred, err := db.GetCredentials(testC.ID)
+	if testC.ID == getCred.ID &&
+		testC.Salt == getCred.Salt &&
+		testC.Hash == getCred.Hash {
+		t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
+			getCred.ID, getCred.Salt, getCred.Hash, testC.ID, testC.Salt, testC.Hash)
+	}
+	if err != nil {
+		t.Errorf("cannot take credentials %s", err.Error())
+	}
+}
 // func Test_InsertPassword_CorrectField_True(t *testing.T) {
 // 	db := getDB(t, testURL)
 
