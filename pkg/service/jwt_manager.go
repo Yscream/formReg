@@ -47,7 +47,9 @@ func (app *Application) SaveToken(user *models.LoginUser) {
 		fmt.Println(err)
 	}
 
-	res := app.data.InsertToken(id, token)
+	at := models.AccessToken{ID: id, Token: token}
+
+	res := app.data.InsertToken(&at)
 	if res != nil {
 		fmt.Println(res)
 	}

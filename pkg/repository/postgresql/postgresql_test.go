@@ -37,7 +37,7 @@ var userWithEmptyFields = models.User{Name: "", LastName: "", Email: "", Passwor
 
 var credentialsWithCorrectFields = models.Credentials{ID: userWithCorrectFields.ID, Salt: "7oGQ7CwmdjEXV7NU", Hash: "ztS5F8G5IfOH3mSu"}
 var credentialsFalse = models.Credentials{Salt: "", Hash: ""}
-var accessTokenTrue = models.AccessToken{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
+var accessTokenWithCorrectFields = models.AccessToken{ID: userWithCorrectFields.ID, Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
 var accessTokenFalse = models.AccessToken{Token: ""}
 
 func Test_InsertUserWithCorrectFields_Success(t *testing.T) {
@@ -79,6 +79,24 @@ func Test_InsertCredentials_Success(t *testing.T) {
 		}
 		if err != nil {
 			t.Errorf("cannot take credentials %s", err.Error())
+		}
+	})
+}
+
+func Test_InsertToken_Success(t *testing.T) {
+	db := getDB(t, testURL)
+
+	err := db.InsertToken(&accessTokenWithCorrectFields)
+	if err != nil {
+		t.Errorf("cannot insert credentials, %s", err.Error())
+	}
+	t.Run("selectToken", func(t *testing.T) {
+		getToken, err := db.SelectToken(accessTokenWithCorrectFields.ID)
+		if accessTokenWithCorrectFields.Token == getToken {
+			t.Logf("db:(Token: %s) match with accessTokenWithCorrectFields:(Token: %s)", getToken, accessTokenFalse.Token)
+		}
+		if err != nil {
+			t.Errorf("cannot take token %s", err.Error())
 		}
 	})
 }

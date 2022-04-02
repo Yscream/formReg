@@ -84,8 +84,8 @@ func (m *Repository) InsertCredentials(cred *models.Credentials) error {
 	return nil
 }
 
-func (m *Repository) InsertToken(id int, token string) error {
-	insert, err := m.DBmodel.Queryx("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", id, token)
+func (m *Repository) InsertToken(at *models.AccessToken) error {
+	insert, err := m.DBmodel.Queryx("INSERT INTO tokens (users_id, token)  VALUES($1, $2)", at.ID, at.Token)
 	if err != nil {
 		fmt.Println("cannot delete token", err)
 		return err
