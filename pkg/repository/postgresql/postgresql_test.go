@@ -30,12 +30,12 @@ import (
 // Given_Preconditions_When_StateUnderTest_Then_ExpectedBehavior — Behavior-Driven Development (BDD)
 // example: Given_UserIsAuthenticated_When_InvalidAccountNumberIsUsedToWithdrawMoney_Then_TransactionsWillFail
 
-var userCorrectFields = models.User{ID: 1, Name: "Big", LastName: "Bob", Email: "bigbog123@gmail.com", Password: "bigbob123"}
+var userWithCorrectFields = models.User{ID: 1, Name: "Big", LastName: "Bob", Email: "bigbog123@gmail.com", Password: "bigbob123"}
 var userWithSameEmail = models.User{ID: 2, Name: "Putin", LastName: "Huilo", Email: "bigbog123@gmail.com", Password: "bigbob123"}
 var userWithSameID = models.User{ID: 1, Name: "John", LastName: "Armstrong", Email: "johnbog1234@gmail.com", Password: "bigbob123"}
 var userWithEmptyFields = models.User{Name: "", LastName: "", Email: "", Password: ""}
 
-var credentialsTrue = models.Credentials{Salt: "7oGQ7CwmdjEXV7NU", Hash: "ztS5F8G5IfOH3mSu"}
+var credentialsWithCorrectFields = models.Credentials{ID: userWithCorrectFields.ID, Salt: "7oGQ7CwmdjEXV7NU", Hash: "ztS5F8G5IfOH3mSu"}
 var credentialsFalse = models.Credentials{Salt: "", Hash: ""}
 var accessTokenTrue = models.AccessToken{Token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
 var accessTokenFalse = models.AccessToken{Token: ""}
@@ -65,17 +65,17 @@ func Test_InsertUserWithCorrectFields_Success(t *testing.T) {
 func Test_InsertCredentials_Success(t *testing.T) {
 	db := getDB(t, testURL)
 
-	err := db.InsertCredentials(&credentialsCorrectFields)
+	err := db.InsertCredentials(&credentialsWithCorrectFields)
 	if err != nil {
 		t.Errorf("cannot insert credentials, %s", err.Error())
 	}
 	t.Run("getCredetials", func(t *testing.T) {
-		getCred, err := db.GetCredentials(credentialsCorrectFields.ID)
-		if credentialsCorrectFields.ID == getCred.ID &&
-			credentialsCorrectFields.Salt == getCred.Salt &&
-			credentialsCorrectFields.Hash == getCred.Hash {
-			t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
-				getCred.ID, getCred.Salt, getCred.Hash, credentialsCorrectFields.ID, credentialsCorrectFields.Salt, credentialsCorrectFields.Hash)
+		getCred, err := db.GetCredentials(credentialsWithCorrectFields.ID)
+		if credentialsWithCorrectFields.ID == getCred.ID &&
+			credentialsWithCorrectFields.Salt == getCred.Salt &&
+			credentialsWithCorrectFields.Hash == getCred.Hash {
+			t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsWithCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
+				getCred.ID, getCred.Salt, getCred.Hash, credentialsWithCorrectFields.ID, credentialsWithCorrectFields.Salt, credentialsWithCorrectFields.Hash)
 		}
 		if err != nil {
 			t.Errorf("cannot take credentials %s", err.Error())
@@ -135,13 +135,14 @@ func Test_GetCredentials_Success(t *testing.T) {
 	if testC.ID == getCred.ID &&
 		testC.Salt == getCred.Salt &&
 		testC.Hash == getCred.Hash {
-		t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
+		t.Logf("db:( ID: %d, Salt: %s, Hash: %s) match with credentialsWithCorrectFields:(ID: %d, Salt: %s, Hash: %s)",
 			getCred.ID, getCred.Salt, getCred.Hash, testC.ID, testC.Salt, testC.Hash)
 	}
 	if err != nil {
 		t.Errorf("cannot take credentials %s", err.Error())
 	}
 }
+
 // func Test_InsertPassword_CorrectField_True(t *testing.T) {
 // 	db := getDB(t, testURL)
 

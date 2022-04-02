@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/Yscream/go-form-reg/configs"
-	"github.com/Yscream/go-form-reg/pkg/api"
 	"github.com/Yscream/go-form-reg/pkg/repository/postgresql"
+	"github.com/Yscream/go-form-reg/pkg/router"
 	"github.com/Yscream/go-form-reg/pkg/service"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/lib/pq"
@@ -25,5 +25,5 @@ func main() {
 	repository := service.NewConnection(db)
 
 	fmt.Printf("Starting server for testing HTTP POST... PORT: 8033\n")
-	log.Fatal(http.ListenAndServe(":8033", api.NewRouter(repository)))
+	log.Fatal(http.ListenAndServe(":8033", router.NewRouter(repository)))
 }

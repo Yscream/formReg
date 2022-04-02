@@ -16,7 +16,8 @@ func (app *Application) InsertUserData(user *models.User) error {
 	if err != nil {
 		fmt.Println("cannot insert user")
 	}
-	app.data.InsertPassword(user.ID, base64.StdEncoding.EncodeToString(salt), hash)
+	cred := models.Credentials{ID: user.ID, Salt: base64.StdEncoding.EncodeToString(salt), Hash: hash}
+	app.data.InsertCredentials(&cred)
 
 	return nil
 }
