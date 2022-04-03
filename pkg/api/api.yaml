@@ -14,7 +14,8 @@ paths:
               $ref: '#/components/schemas/SignupRequest'
       responses:
         '200':
-          description: Sign up request successful       
+          description: Sign up request successful
+          
   /log:
     post:
       description: Endpoint to login user
@@ -31,18 +32,18 @@ paths:
       description: Endpoint to logout user
       responses:
         '200':
-          description: Log out request successful           
+          description: Log out request successful
+              
   /userInfo:
-    post:
+    get:
       description: Endpoint to get information about user
-      requestBody:
-        content:
-          application/json:
-            schema: 
-              $ref: '#/components/schemas/UserInfo'
       responses:
         '200':
           description: UserInfo request successful
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/UserInfo'
 components:
   schemas:
     SignupRequest:
