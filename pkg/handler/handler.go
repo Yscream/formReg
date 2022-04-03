@@ -101,6 +101,7 @@ func (handler *ServiceHandler) NewLogInHandler(w http.ResponseWriter, r *http.Re
 func (handler *ServiceHandler) NewLogOutHandler(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("Authorization")
 	handler.service.DeleteToken(token)
+	w.WriteHeader(http.StatusOK)
 }
 
 func (handler *ServiceHandler) ShowProfile(w http.ResponseWriter, r *http.Request) {

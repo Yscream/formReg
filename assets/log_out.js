@@ -21,7 +21,7 @@ const check_token = document.querySelector('.check-button');
 
 
 check_token.addEventListener('click', () => {
-    const url2 = window.location.origin + "/token";
+    const url2 = window.location.origin + "/userInfo";
 
     const response = fetch(url2, {
         method: 'POST', 

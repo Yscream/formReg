@@ -14,7 +14,7 @@ func NewRouter(service *service.Application) *mux.Router {
 	router.HandleFunc("/user", h.NewSignupHandler)
 	router.HandleFunc("/log", h.NewLogInHandler)
 	router.HandleFunc("/log_out", h.NewLogOutHandler)
-	router.HandleFunc("/token", h.ShowProfile)
+	router.HandleFunc("/userInfo", h.ShowProfile)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("../assets/")))
 	return router
 }

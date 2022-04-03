@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info: 
+  version: 0.0.1
+  title: web-server
+  description: Registartion & login web server
+paths:
+  /user:
+    post:
+      description: Endpoint to register user
+      requestBody:
+        content: 
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        '200':
+          description: Sign up request successful       
+  /log:
+    post:
+      description: Endpoint to login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Log in request successful
+  /log_out:
+    post:
+      description: Endpoint to logout user
+      responses:
+        '200':
+          description: Log out request successful           
+  /userInfo:
+    post:
+      description: Endpoint to get information about user
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/UserInfo'
+      responses:
+        '200':
+          description: UserInfo request successful
+components:
+  schemas:
+    SignupRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 255
+          minLength: 1
+          description: User's first name
+        lastName:
+          type: string
+          maxLength: 255
+          minLength: 1
+          description: User's last name
+        email:
+          type: string
+          maxLength: 255
+          format: email
+          description: User's email
+        password:
+          type: string
+          maxLength: 255
+          minLength: 1
+          format: password
+          description: User's password
+      required:
+      - firstName
+      - lastName
+      - email
+      - password
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 255
+          format: email
+          description: User's email
+        password:
+          type: string
+          maxLength: 255
+          minLength: 1
+          format: password
+          description: User's password
+      required:
+        - email
+        - password
+    UserInfo:
+      type: object
+      properties:
+        firstname: 
+          type: string
+          description: User's first name
+        lastname:
+          type: string
+          description: User's last name
+        email:
+          type: string
+          format: email
+          description: User's email

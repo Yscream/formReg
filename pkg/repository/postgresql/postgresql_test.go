@@ -161,6 +161,11 @@ func Test_GetCredentials_Success(t *testing.T) {
 	}
 }
 
+// func Test_GetToken_Success(t *testing.T) {
+// 	db := getDB(t, testURL)
+
+// }
+
 // func Test_InsertPassword_CorrectField_True(t *testing.T) {
 // 	db := getDB(t, testURL)
 

@@ -21,6 +21,7 @@ var testURL string
 func TestMain(m *testing.M) {
 	var exitCode int
 	defer os.Exit(exitCode)
+
 	pool, err := dockertest.NewPool("")
 	if err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
