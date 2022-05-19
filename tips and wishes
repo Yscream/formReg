@@ -1,0 +1,25 @@
+probobly , i'll make a dropdown menu for each list of teachers, groups, room
+
+how can i add it "https://github.com/kre-college/lms/issues/1#:~:text=resources%20(projector%2C%20lab%20stuff))"
+
+what is "https://github.com/kre-college/lms/issues/1#:~:text=POST%20api/v1/lesson/validate"
+
+i can create arrays which will fill struct
+front should be get this struct from back  
+ 
+ make filter 
+ 
+ make pre-load words
+ can use handler for "/shcedule" url and load 
+ 
+??add schedule filter:
+1.user will have possibility to choose necessary property(-ies) (group(-s), teacher(-s), subject(-s), room(-s), date(-s))
+ 
+lesson edit window: 
+1.i can use one func* for both requests->1.1  or either make a new handlefunc ->1.2
+
+ 1.1 i'm going to add a path "/lesson" and depending on what user chooses ("Create lesson", "Edit lesson") this will be added to path ("/lesson/create", "/lesson/edit"), but when user chooses "Edit lesson", func* will return same body if user chose "Create lesson". This means that "Edit lesson" window will look like "Create lesson" window and current lesson properties wont display. it will look like user create a new lesson, but actually he(she) will set a new properties
+  
+ 1.2 i'm going to add two differrent functions for each paths ("/create_lesson", "/edit_lesson") and in this case it will be possible to add a new func for "Edit lesson". it means when user will choose "edit lesson" unlike first way(1.1) edit window will display current lesson properties
+ 
+ *func Lesson() - when server receives request func returns an array of group
