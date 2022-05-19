@@ -38,3 +38,4 @@ func HashPassword(salt, password string) (string, error) {
 func CheckPasswordAndHash(password, hash string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }
+//add one file
